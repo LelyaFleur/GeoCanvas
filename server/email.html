@@ -1,0 +1,10 @@
+<form class="padding-vertical" name = "emailForm" style = "border:none !important;" novalidate >       
+  				
+   		<input type = "email" class = "round" ng-model = "user.email" name = "email" required>		
+		<div class="help-block" ng-messages="emailForm.email.$error" ng-if="emailForm.email.$touched">
+			<div class="error" ng-message="required">
+	      		<i class="ion-information-circled"></i> 
+	     			 Es requereix el text del wrong email
+	   		</div>       		
+		</div>
+</form>

@@ -1,0 +1,10 @@
+<ion-tabs class="tabs-icon-top tabs-dark">
+	<ion-tab title = "Canvas" icon = "ion-ios-home-outline" href = "#/tab/canvas">
+		<ion-nav-view name="canvas-tab"></ion-nav-view>
+	</ion-tab>
+	
+	<ion-tab title = "Entrar" hidden = {{$root.loggedIn}}  icon = "ion-ios-person-outline" href = "#/tab/login">
+		<ion-nav-view name="login-tab"></ion-nav-view>
+	</ion-tab>
+	
+</ion-tabs>
