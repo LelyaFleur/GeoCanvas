@@ -42,7 +42,7 @@ angular.module('starter', ['ionic', 'monospaced.elastic', 'ngInputModified', 'io
         $rootScope.loggedIn = false;
         $rootScope.loggedIn = false;
         $rootScope.adminpower = false;       
-        $state.go('tabs.canvas', null, {reload:true});
+        $state.go('canvas', null, {reload:true});
        
       });    
   };     
@@ -101,14 +101,11 @@ angular.module('starter', ['ionic', 'monospaced.elastic', 'ngInputModified', 'io
           }
       })
 
-      .state('tabs.canvas',{
+      .state('canvas',{
           url: '/canvas',
-          views: {
-            'canvas-tab': {
-              templateUrl: 'templates/canvas.html',
-              controller: 'LoginController'
-            }
-          }
+          cache: false,
+          templateUrl: 'templates/canvas.html',
+          controller: 'CanvasController' 
       })
 
       .state('register', {
@@ -122,7 +119,7 @@ angular.module('starter', ['ionic', 'monospaced.elastic', 'ngInputModified', 'io
 
       
     
-    $urlRouterProvider.otherwise('/tab/canvas');
+    $urlRouterProvider.otherwise('/canvas');
 })
 
 

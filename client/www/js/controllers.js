@@ -68,7 +68,7 @@ angular.module('starter')
          $state.go('tabs.super-admin');
         }
         else {*/
-           $state.go('tabs.canvas');
+           $state.go('canvas');
       
      
         $rootScope.priority_name = data.priority;     
@@ -158,6 +158,51 @@ angular.module('starter')
       });
     });
   };
+})
+
+.controller('CanvasController', function($scope) {
+   $scope.points = [
+     { x: 25, y: 57},
+     { x: 125, y: 7 },
+     { x: 55, y: 68 },
+      { x: 195, y: 37 },
+     { x: 76, y: 35 },
+     { x: 5, y: 207 },
+  ];
+  $scope.boundingBox = {};
+
+  function findBoundingBox(points) {
+    
+    var boundingBox = {
+      min : {x: Number.MAX_VALUE, y: Number.MAX_VALUE },
+      max : {x: Number.NEGATIVE_INFINITY, y: Number.NEGATIVE_INFINITY}
+    };
+
+    points.forEach(function(point){
+      if(point.x > boundingBox.max.x) {
+        boundingBox.max.x = point.x;
+      }
+
+      if(point.y > boundingBox.max.y) {
+        boundingBox.max.y = point.y;
+      }
+
+      if(point.x < boundingBox.min.x) {
+        boundingBox.min.x = point.x;
+      }
+
+      if(point.y < boundingBox.min.y) {
+        boundingBox.min.y = point.y;
+      }
+
+    });
+
+    return boundingBox;
+
+  }
+
+  $scope.boundingBox = findBoundingBox($scope.points);
+      
 });
 
 
