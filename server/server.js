@@ -18,7 +18,7 @@
    
     var User = require('./models/user');     
     
-    var port        = process.env.PORT || 8080;
+    var port        = process.env.PORT || 3000;
     var jwt         = require('jwt-simple');
     var server = null;
     var io = null;
