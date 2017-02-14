@@ -3,7 +3,7 @@
  * Copyright 2015 Drifty Co.
  * http://drifty.com/
  *
- * Ionic, v1.3.2
+ * Ionic, v1.3.1
  * A powerful HTML5 mobile app framework.
  * http://ionicframework.com/
  *
@@ -5775,9 +5775,9 @@ ion-tabs.tabs-striped.tabs-color-active-dark .tab-item.tab-item-active, ion-tabs
     background-color: #ffc900;
     color: #fff; }
   .item.item-royal {
-    border-color: #6b46e5;
-    background-color: #886aea;
-    color: #fff; }
+    border-color: #b2b2b2;
+    background-color: #ddd;
+    color: #000; }
   .item.item-dark {
     border-color: #111;
     background-color: #444;
@@ -5923,15 +5923,15 @@ ion-tabs.tabs-striped.tabs-color-active-dark .tab-item.tab-item-active, ion-tabs
   .item-complex.activated .item-content.item-royal,
   .item .item-content.active.item-royal,
   .item .item-content.activated.item-royal {
-    border-color: #6b46e5;
-    background-color: #6b46e5; }
+    border-color: #777;
+    background-color: #b2b2b2; }
     .item.active.item-royal.item-complex > .item-content,
     .item.activated.item-royal.item-complex > .item-content,
     .item-complex.active .item-content.item-royal.item-complex > .item-content,
     .item-complex.activated .item-content.item-royal.item-complex > .item-content,
     .item .item-content.active.item-royal.item-complex > .item-content,
     .item .item-content.activated.item-royal.item-complex > .item-content {
-      border-color: #6b46e5;
+      border: none;
       background-color: #6b46e5; }
   .item.active.item-dark,
   .item.activated.item-dark,
@@ -6113,15 +6113,15 @@ a.item-content {
       background-color: #e6b500; }
 
 .item-complex.item-royal > .item-content {
-  border-color: #6b46e5;
-  background-color: #886aea;
-  color: #fff; }
+  border: none;
+  background-color: #ddd;
+  color: #444; }
   .item-complex.item-royal > .item-content.active, .item-complex.item-royal > .item-content:active {
-    border-color: #6b46e5;
-    background-color: #6b46e5; }
+    border: #777;
+    background-color: #b2b2b2; }
     .item-complex.item-royal > .item-content.active.item-complex > .item-content, .item-complex.item-royal > .item-content:active.item-complex > .item-content {
-      border-color: #6b46e5;
-      background-color: #6b46e5; }
+      border: none;
+      background-color: #ddd; }
 
 .item-complex.item-dark > .item-content {
   border-color: #111;

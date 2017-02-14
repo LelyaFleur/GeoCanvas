@@ -144,7 +144,7 @@ angular.module('starter')
   $scope.signup = function() {   
 
     AuthService.register($scope.user).then(function(msg) {
-     // $state.go('tabs.login');
+      $state.go('tabs.login');
       var alertPopup = $ionicPopup.alert({
         title: 'Registre correcte!',
         cssClass: 'popupDialog',
@@ -160,7 +160,7 @@ angular.module('starter')
   };
 })
 
-.controller('CanvasController', function($scope) {
+.controller('CanvasController', function($scope, $geolocation) {
    $scope.points = [
      { x: 25, y: 57},
      { x: 125, y: 7 },
@@ -202,6 +202,19 @@ angular.module('starter')
   }
 
   $scope.boundingBox = findBoundingBox($scope.points);
+
+   $geolocation.watchPosition({
+              timeout: 60000,
+              maximumAge: 250,
+              enableHighAccuracy: true
+          });
+  $scope.myPosition = $geolocation.position; // this object updates regularly, it has 'error' property which is a 'truthy' and also 'code' and 'message' property if an error occurs
+
+  //It has all the location data 
+  console.log("coord:" + $scope.myPosition.coords);
+
+  //It's truthy and gets defined when error occurs 
+  '$scope.myPosition.error'
       
 });
 

@@ -3,9 +3,9 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic', 'monospaced.elastic', 'ngInputModified', 'ion-datetime-picker', 'ngMessages', 'btford.socket-io'])
+angular.module('starter', ['ionic', 'ngGeolocation', 'monospaced.elastic', 'ngInputModified', 'ion-datetime-picker', 'ngMessages', 'btford.socket-io'])
 
-  .run(function ($rootScope, $state, $location, $q, $http, $ionicPlatform, $ionicPickerI18n, AuthService, Priority, SharedData, AUTH_EVENTS) {    
+  .run(function ($rootScope, $state, $location, $q, $http, $ionicPlatform, $ionicPickerI18n, AuthService, SharedData, AUTH_EVENTS) {    
       
     $ionicPickerI18n.weekdays = ["dg", "dl", "dt", "dc", "dj", "dv", "ds"];
     $ionicPickerI18n.months = ["Gener", "Febrer", "Març", "Abril", "Maig", "Juny", "Juliol", "Agost", "Setembre", "Octubre", "Novembre", "Desembre"];

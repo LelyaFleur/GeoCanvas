@@ -1,0 +1,28 @@
+
+<ion-header-bar align-title="center" class="bar-dark"> 
+     
+ 	 <h1 class="title title-center">Identificació</h1>     
+</ion-header-bar>
+<ion-view cache-view="false">
+	<ion-content class = "gap">
+		<form  name = "loginForm" class="dark padding-horizontal" ng-submit="login()" style = "margin-top: 50px;">	
+		<!--<p class="text-center" style= "color:#fff;font-size:20px;">Identificació</p>-->		
+			<label class="item item-input semi-dark styled-item round" style = "margin-left: 0!important; margin-right: 0!important;">
+				
+				<input  type="text" name="username" ng-model="user.name" placeholder="Nom d'usuari" required style = "color:#fff; font-size: 20px;">
+			</label>
+			<label class="item item-input semi-dark styled-item round" style = "margin-left: 0!important; margin-right: 0!important;">
+				
+				<input type="password" name="password" ng-model="user.password" placeholder="Contrassenya" required style = "color:#fff; font-size: 20px;">
+			</label>
+			
+			<button type = "submit" class="button button-block semi-dark round" ng-disabled="$root.loggedIn || !loginForm.$valid" required style = "color:#fff; font-size: 20px;margin-top:40px;">
+					Entrar
+			</button>
+					
+		</form>
+		
+		<!--<button class="button button-positive button-clear button-full" ng-click="showResetPassword()">Has oblidat la contrasenya?</button>--><button class="button button-positive button-clear button-full" ng-click="signup()">Sign up</button><button class="button button-positive button-clear button-full" ng-click="$root.logout()">Log out</button>
+	</ion-content>	
+</ion-view>
+

@@ -9,7 +9,7 @@ $calm:                            #11c1f3 !default;
 $balanced:                        #33cd5f !default;
 $energized:                       #ffc900 !default;
 $assertive:                       #ef473a !default;
-$royal:                           #886aea !default;
+$royal:                           #ddd !default;
 $dark:                            #444 !default;
 
 
@@ -93,8 +93,8 @@ $button-bar-button-height:        32px !default;
 $button-bar-button-padding:       8px !default;
 $button-bar-button-icon-size:     20px !default;
 
-$button-default-border:           transparent !default;
-$button-default-active-border:    null !default;
+$button-default-border:       transparent;
+$button-default-active-border:null;
 
 $button-light-bg:                 $light !default;
 $button-light-text:               #444 !default;
