@@ -5,6 +5,7 @@
 </ion-header-bar>
 <ion-view cache-view="false">
 	<ion-content class="splash" style ="color:white;" scroll ="false">
+	<button class="button button-positive button-clear button-full" ng-click="$root.logout()">Log out</button>
 		<!--<div class="branding">
 			<img src="img/ionic.png" alt="ERC Logo" style = "width: 90%">
 			<div class="tagline">Geo Canvas</div>
@@ -17,6 +18,6 @@
 		</div>-->
 		
 		<canvas style="background-color: white;" drawing points = "{{points}}" bounding = "{{boundingBox}}"></canvas>
-		
+		>
 	</ion-content>
 </ion-view>

@@ -45,8 +45,7 @@ angular.module('starter')
   function restoreUserInfo(){
     var id = 0;
     var username = undefined;
-    var priority = "Usuari no identificat";
-    var adminpower = false;
+    
     if(isAuthenticated){
       localforage.iterate(function(value, key, iterationNumber) {
         if (key === "id") {

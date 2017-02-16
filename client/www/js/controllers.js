@@ -1,6 +1,6 @@
 angular.module('starter')
  
-.controller('LoginController', function($scope, $rootScope, AuthService, User, $ionicPopup, $state) {
+.controller('LoginController', function($scope, $rootScope, AuthService, $ionicPopup, $state) {
   $scope.user = {
     name: '',
     password: ''
@@ -55,12 +55,11 @@ angular.module('starter')
 
   $scope.login = function() {
     AuthService.login($scope.user).then(function(data) {
-      if(data.temporal) {
-        $rootScope.priority_name = data.priority;     
+      if(data.temporal) {       
         $rootScope.username = data.username;
         $rootScope.userId = data.id;
         $rootScope.loggedIn = true;
-        $rootScope.adminpower = data.adminpower;
+       
         
         showResetPassword();
       } else {
@@ -71,7 +70,7 @@ angular.module('starter')
            $state.go('canvas');
       
      
-        $rootScope.priority_name = data.priority;     
+         
         $rootScope.username = data.username;
         $rootScope.userId = data.id;
         $rootScope.loggedIn = true;
@@ -88,7 +87,8 @@ angular.module('starter')
     });
   };
 
-  $scope.signup = function(){
+  $scope.signup = function() {
+    console.log("Entering into register");
       $state.go('register');
     }
 
@@ -144,7 +144,8 @@ angular.module('starter')
   $scope.signup = function() {   
 
     AuthService.register($scope.user).then(function(msg) {
-      $state.go('tabs.login');
+      $rootScope.loggedIn = false;
+      $state.go('login');
       var alertPopup = $ionicPopup.alert({
         title: 'Registre correcte!',
         cssClass: 'popupDialog',

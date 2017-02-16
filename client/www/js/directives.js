@@ -126,8 +126,8 @@ angular.module('starter')
       boundingBox.max.y += range_y * screenMargin;
 
       // Calculem el centre del nostre món transformat a pantalla.
-      var centerWorldX = (boundingBox.max.x - boundingBox.min.x) / 2.0; 
-      var centerWorldY = (boundingBox.max.y - boundingBox.min.y) / 2.0;
+      var centerWorldX = (boundingBox.max.x + boundingBox.min.x) / 2.0; 
+      var centerWorldY = (boundingBox.max.y + boundingBox.min.y) / 2.0;
       centerWorldX = (centerWorldX - boundingBox.min.x) * coeff;
       centerWorldY = (centerWorldY - boundingBox.min.y) * coeff;
 
