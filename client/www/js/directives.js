@@ -71,6 +71,7 @@ angular.module('starter')
     }
   };
 })
+
 .directive("drawing", function(){
   return {
     restrict: "A",
@@ -93,7 +94,6 @@ angular.module('starter')
       var lastX;
       var lastY;
       console.log("points:" + scope.points);
-      console.log("bounding box:" + scope.bounding.min);
       var boundingBox = JSON.parse(scope.bounding);
       var points = JSON.parse(scope.points);
       
@@ -104,13 +104,11 @@ angular.module('starter')
       // We want our world to fit a percentage of the screen.
       var range_x = (boundingBox.max.x - boundingBox.min.x) / screenPercentage;
       var range_y = (boundingBox.max.y - boundingBox.min.y) / screenPercentage;
+      var useHeight = 0;
 
       var coeff = getConversionFactor();
 
       var context = canvas.getContext('2d');
-
-      var centerX = canvas.width / 2;
-      var centerY = canvas.height / 2;
 
       // Code to remember the original boundingBox in order to be able to print it on screen.
       // NOTE: Asigning boundingBox to a var doesn't seem to work.
@@ -126,18 +124,14 @@ angular.module('starter')
       boundingBox.max.y += range_y * screenMargin;
 
       // Calculem el centre del nostre món transformat a pantalla.
-      var centerWorldX = (boundingBox.max.x + boundingBox.min.x) / 2.0; 
-      var centerWorldY = (boundingBox.max.y + boundingBox.min.y) / 2.0;
-      centerWorldX = (centerWorldX - boundingBox.min.x) * coeff;
-      centerWorldY = (centerWorldY - boundingBox.min.y) * coeff;
+      var centerWorldXOld = (boundingBox.max.x + boundingBox.min.x) / 2.0; 
+      var centerWorldYOld = (boundingBox.max.y + boundingBox.min.y) / 2.0;
+      var centerWorldX = (centerWorldXOld - boundingBox.min.x) * coeff;
+      var centerWorldY = (centerWorldYOld - boundingBox.min.y) * coeff;
 
       // El comparem amb el centre real de la pantalla de cares a poder resituar el món i que coincideixin.
-      var diffX = (window.innerWidth / 2.0) - centerWorldX;
-      diffX += range_x * screenMargin;
+      var diffX =(window.innerWidth / 2.0) - centerWorldX;
       var diffY = (window.innerHeight / 2.0) - centerWorldY;
-      diffY += range_y * screenMargin;
-      //console.log("DiffX = " + diffX);
-      //console.log("DiffY = " + diffY);
 
       var radius = 5;
 
@@ -179,12 +173,13 @@ angular.module('starter')
         context.beginPath();
         var x = point.x - boundingBox.min.x;
         var y = point.y - boundingBox.min.y;
+        radius = 3;
 
         context.arc((x*coeff) + diffX, (y*coeff) + diffY, radius, 0, 2 * Math.PI, false);
-        context.fillStyle = 'green';
+        context.fillStyle = 'blue';
         context.fill();
         context.lineWidth = 0.5;
-        context.strokeStyle = '#003300';
+        context.strokeStyle = '#007AFF';
         context.stroke();
       });
 
@@ -235,14 +230,6 @@ angular.module('starter')
       });*/
 
       function getConversionFactor() {
-        
-//        var boundingBox  = JSON.parse(scope.bounding);
-
-
-//        console.log("bounding box:" + boundingBox['max']);
-
-//        var range_x = (boundingBox.max.x - boundingBox.min.x) / 0.9;
-//        var range_y = (boundingBox.max.y - boundingBox.min.y) / 0.9;
 
         var ratio_world = range_x / range_y;
 
@@ -250,6 +237,7 @@ angular.module('starter')
 
         if(ratio_world < ratio_screen) {
           // use height
+          useHeight = 1;
           return window.innerHeight/range_y;
         } else {
           //use width 
@@ -276,4 +264,10 @@ angular.module('starter')
     }
   };
 });
+
+
+
+
+
+
 

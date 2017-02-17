@@ -161,16 +161,9 @@ angular.module('starter')
   };
 })
 
-.controller('CanvasController', function($scope, $geolocation) {
-   $scope.points = [
-     { x: 25, y: 57},
-     { x: 125, y: 7 },
-     { x: 55, y: 68 },
-      { x: 195, y: 37 },
-     { x: 76, y: 35 },
-     { x: 5, y: 207 },
-  ];
-  $scope.boundingBox = {};
+.controller('CanvasController', function($scope, /*$geolocation,*/$ionicPlatform, $cordovaGeolocation) {
+   
+
 
   function findBoundingBox(points) {
     
@@ -201,10 +194,9 @@ angular.module('starter')
     return boundingBox;
 
   }
+ 
 
-  $scope.boundingBox = findBoundingBox($scope.points);
-
-   $geolocation.watchPosition({
+ /*  $geolocation.watchPosition({
               timeout: 60000,
               maximumAge: 250,
               enableHighAccuracy: true
@@ -215,7 +207,102 @@ angular.module('starter')
   console.log("coord:" + $scope.myPosition.coords);
 
   //It's truthy and gets defined when error occurs 
-  '$scope.myPosition.error'
+  '$scope.myPosition.error'*/
+
+
+  var watch;
+  var watchOptions = {
+    timeout : 5000,
+    maximumAge: 3000,
+    enableHighAccuracy: true // may cause errors if true
+  };
+
+  var pollCurrentLocation = function() {
+    $cordovaGeolocation.getCurrentPosition(watchOptions)
+      .then(function (position) {
+        var lat  = position.coords.latitude
+        var long = position.coords.longitude
+
+        console.log('polling lat long', lat, long);
+        $scope.lastPollingLocation.lat = $scope.currentPollingLocation.lat;
+        $scope.lastPollingLocation.long = $scope.currentPollingLocation.long;
+
+        $scope.currentPollingLocation.lat = lat;
+        $scope.currentPollingLocation.long = long;
+      }, function(err) {
+        // error
+        console.log("polling error", err);
+      });
+
+    setTimeout(pollCurrentLocation, 1000);
+  };
+
+  var watchCurrentLocation = function() {
+    watch = $cordovaGeolocation.watchPosition(watchOptions);
+    watch.then(
+      null,
+      function(err) {
+        // error
+        console.log("watch error", err);
+      },
+      function(position) {
+        var lat  = position.coords.latitude
+        var long = position.coords.longitude
+
+        console.log('lat long', lat, long);
+        $scope.lastLocation.lat = $scope.currentLocation.lat;
+        $scope.lastLocation.long = $scope.currentLocation.long;
+
+        $scope.currentLocation.lat = lat;
+        $scope.currentLocation.long = long;
+    });
+  };
+
+  $scope.lastLocation = {
+    lat: null,
+    long: null
+  };
+
+  $scope.currentLocation = {
+    lat: null,
+    long: null
+  };
+
+  $scope.lastPollingLocation = {
+    lat: null,
+    long: null
+  };
+
+  $scope.currentPollingLocation = {
+    lat: null,
+    long: null
+  };
+
+  $scope.points = [
+     { x: 25, y: 57},
+     { x: 125, y: 7 },
+     { x: 55, y: 68 },
+      { x: 195, y: 37 },
+     { x: 76, y: 35 },
+     { x: 5, y: 207 },
+  ];
+  $scope.boundingBox = {};
+  $scope.lat = 0;
+  $scope.long = 0;
+
+  $scope.boundingBox = findBoundingBox($scope.points);
+
+  $ionicPlatform.ready(function() {
+    watchCurrentLocation();
+
+    pollCurrentLocation();
+  });
+
+  $scope.$on("$destroy", function() {
+    if (watch) {
+      watch.clearWatch();
+    }
+  });
       
 });
 

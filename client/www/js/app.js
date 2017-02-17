@@ -3,7 +3,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic', 'ngGeolocation', 'monospaced.elastic', 'ngInputModified', 'ion-datetime-picker', 'ngMessages', 'btford.socket-io'])
+angular.module('starter', ['ionic', 'ngCordova', /* 'ngGeolocation',*/ 'monospaced.elastic', 'ngInputModified', 'ion-datetime-picker', 'ngMessages', 'btford.socket-io'])
 
   .run(function ($rootScope, $state, $location, $q, $http, $ionicPlatform, $ionicPickerI18n, AuthService, SharedData, AUTH_EVENTS) {    
       
@@ -58,6 +58,10 @@ angular.module('starter', ['ionic', 'ngGeolocation', 'monospaced.elastic', 'ngIn
     });
 
     $ionicPlatform.ready(function() {
+
+     /* $cordovaPlugin.someFunction().then(success, error);*/
+
+
       if(window.cordova && window.cordova.plugins.Keyboard) {
        
         cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);        

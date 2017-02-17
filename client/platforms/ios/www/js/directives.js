@@ -126,8 +126,8 @@ angular.module('starter')
       boundingBox.max.y += range_y * screenMargin;
 
       // Calculem el centre del nostre món transformat a pantalla.
-      var centerWorldX = (boundingBox.max.x - boundingBox.min.x) / 2.0; 
-      var centerWorldY = (boundingBox.max.y - boundingBox.min.y) / 2.0;
+      var centerWorldX = (boundingBox.max.x + boundingBox.min.x) / 2.0; 
+      var centerWorldY = (boundingBox.max.y + boundingBox.min.y) / 2.0;
       centerWorldX = (centerWorldX - boundingBox.min.x) * coeff;
       centerWorldY = (centerWorldY - boundingBox.min.y) * coeff;
 
@@ -181,10 +181,10 @@ angular.module('starter')
         var y = point.y - boundingBox.min.y;
 
         context.arc((x*coeff) + diffX, (y*coeff) + diffY, radius, 0, 2 * Math.PI, false);
-        context.fillStyle = 'green';
+        context.fillStyle = 'blue';
         context.fill();
-        context.lineWidth = 0.5;
-        context.strokeStyle = '#003300';
+        context.lineWidth = 0.9;
+        context.strokeStyle = '#007AFF';
         context.stroke();
       });
 

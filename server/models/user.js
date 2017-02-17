@@ -19,14 +19,10 @@ var UserSchema = new Schema({
         type: String,
         required: true
     },
-  fullname: String,
-  sex: String,
-  email: String,
-  direction: String,
-  tel: [telNumberSchema],
-  priority: String,
-  adminpower: Boolean,
-  temporal: Boolean
+  coord: {
+    lat: Number,
+    long: Number
+  }
 });
  
 UserSchema.pre('save', function (next) {

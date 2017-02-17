@@ -1,6 +1,6 @@
 angular.module('starter')
  
-.controller('LoginController', function($scope, $rootScope, AuthService, User, $ionicPopup, $state) {
+.controller('LoginController', function($scope, $rootScope, AuthService, $ionicPopup, $state) {
   $scope.user = {
     name: '',
     password: ''
@@ -55,12 +55,11 @@ angular.module('starter')
 
   $scope.login = function() {
     AuthService.login($scope.user).then(function(data) {
-      if(data.temporal) {
-        $rootScope.priority_name = data.priority;     
+      if(data.temporal) {       
         $rootScope.username = data.username;
         $rootScope.userId = data.id;
         $rootScope.loggedIn = true;
-        $rootScope.adminpower = data.adminpower;
+       
         
         showResetPassword();
       } else {
@@ -71,7 +70,7 @@ angular.module('starter')
            $state.go('canvas');
       
      
-        $rootScope.priority_name = data.priority;     
+         
         $rootScope.username = data.username;
         $rootScope.userId = data.id;
         $rootScope.loggedIn = true;
@@ -88,7 +87,8 @@ angular.module('starter')
     });
   };
 
-  $scope.signup = function(){
+  $scope.signup = function() {
+    console.log("Entering into register");
       $state.go('register');
     }
 
@@ -144,7 +144,8 @@ angular.module('starter')
   $scope.signup = function() {   
 
     AuthService.register($scope.user).then(function(msg) {
-     // $state.go('tabs.login');
+      $rootScope.loggedIn = false;
+      $state.go('login');
       var alertPopup = $ionicPopup.alert({
         title: 'Registre correcte!',
         cssClass: 'popupDialog',
@@ -160,7 +161,7 @@ angular.module('starter')
   };
 })
 
-.controller('CanvasController', function($scope) {
+.controller('CanvasController', function($scope, /*$geolocation,*/ $cordovaGeolocation) {
    $scope.points = [
      { x: 25, y: 57},
      { x: 125, y: 7 },
@@ -202,6 +203,51 @@ angular.module('starter')
   }
 
   $scope.boundingBox = findBoundingBox($scope.points);
+
+ /*  $geolocation.watchPosition({
+              timeout: 60000,
+              maximumAge: 250,
+              enableHighAccuracy: true
+          });
+  $scope.myPosition = $geolocation.position; // this object updates regularly, it has 'error' property which is a 'truthy' and also 'code' and 'message' property if an error occurs
+
+  //It has all the location data 
+  console.log("coord:" + $scope.myPosition.coords);
+
+  //It's truthy and gets defined when error occurs 
+  '$scope.myPosition.error'*/
+
+
+  var posOptions = {timeout: 10000, enableHighAccuracy: false};
+   $cordovaGeolocation
+   .getCurrentPosition(posOptions)
+  
+   .then(function (position) {
+      var lat  = position.coords.latitude
+      var long = position.coords.longitude
+      console.log(lat + '   ' + long)
+   }, function(err) {
+      console.log(err)
+   });
+
+   var watchOptions = {timeout : 3000, enableHighAccuracy: false};
+   var watch = $cordovaGeolocation.watchPosition(watchOptions);
+  
+   watch.then(
+      null,
+    
+      function(err) {
+         console.log(err)
+      },
+    
+      function(position) {
+         var lat  = position.coords.latitude
+         var long = position.coords.longitude
+         console.log(lat + '' + long)
+      }
+   );
+
+   watch.clearWatch();
       
 });
 
