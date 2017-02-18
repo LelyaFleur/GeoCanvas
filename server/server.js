@@ -343,7 +343,7 @@
             if (err)
             res.send(err);
             var coord = {username : user.username,
-                        coordinates: coordinates};
+                        coordinates: user.coordinates};
             console.log("Coordinates:" + coord);
             res.json(coord); 
         });
