@@ -5,9 +5,14 @@
 // the 2nd parameter is an array of 'requires'
 angular.module('starter', ['ionic', 'ngCordova', /* 'ngGeolocation',*/ 'monospaced.elastic', 'ngInputModified', 'ion-datetime-picker', 'ngMessages', 'btford.socket-io'])
 
-  .run(function ($rootScope, $state, $location, $q, $http, $ionicPlatform, $ionicPickerI18n, AuthService, Coordinates, SharedData, AUTH_EVENTS) {    
+  .run(function ($rootScope, $state, $location, $cordovaGeolocation, $q, $http, $ionicPlatform, $ionicPickerI18n, AuthService, Coordinates, SharedData, AUTH_EVENTS) {    
     
-
+    var watch;
+    var watchOptions = {
+        timeout : 5000,
+        maximumAge: 3000,
+        enableHighAccuracy: true // may cause errors if true
+      };
     var pollCurrentLocation = function() {
       $cordovaGeolocation.getCurrentPosition(watchOptions)
         .then(function (position) {
@@ -42,14 +47,14 @@ angular.module('starter', ['ionic', 'ngCordova', /* 'ngGeolocation',*/ 'monospac
 
         Coordinates.sendCoordinates(coordObj)
         .success(function(data){
-            Coordinates.all()
+          /*  Coordinates.all()
             .success(function(data) {
                $rootScope.allCoordinates = data;
                $state.go('canvas');
             })
             .error(function(err){
               console.log(err);
-            });
+            });*/
         })
         .error(function(err){
           console.log(err);

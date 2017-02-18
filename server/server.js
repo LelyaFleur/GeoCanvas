@@ -339,12 +339,13 @@
 
     //get all coordinates
     apiRoutes.get('/coordinates', function(req, res){        
-        User.find(null, function(err, user){
+        User.find(null, function(err, user) {
             if (err)
             res.send(err);
             var coord = {username : user.username,
                         coordinates: user.coordinates};
-            console.log("Coordinates:" + coord);
+            console.log("Name:" + coord.username);
+            console.log("Coordinates:" + coord.coordinates);
             res.json(coord); 
         });
     });
