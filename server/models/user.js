@@ -19,7 +19,7 @@ var UserSchema = new Schema({
         type: String,
         required: true
     },
-  coord: {
+  coordinates: {
     lat: Number,
     long: Number
   }

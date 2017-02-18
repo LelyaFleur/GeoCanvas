@@ -5,9 +5,28 @@
 // the 2nd parameter is an array of 'requires'
 angular.module('starter', ['ionic', 'ngCordova', /* 'ngGeolocation',*/ 'monospaced.elastic', 'ngInputModified', 'ion-datetime-picker', 'ngMessages', 'btford.socket-io'])
 
-  .run(function ($rootScope, $state, $location, $q, $http, $ionicPlatform, $ionicPickerI18n, AuthService, SharedData, AUTH_EVENTS) {    
-      
-   
+  .run(function ($rootScope, $state, $location, $q, $http, $ionicPlatform, $ionicPickerI18n, AuthService, Coordinates, SharedData, AUTH_EVENTS) {    
+    
+
+    var pollCurrentLocation = function() {
+      $cordovaGeolocation.getCurrentPosition(watchOptions)
+        .then(function (position) {
+          var lat  = position.coords.latitude
+          var long = position.coords.longitude
+
+          console.log('polling lat long', lat, long);
+         
+          $rootScope.coordinates.lat = lat;
+          $rootScope.coordinates.long = long;
+        }, function(err) {
+          // error
+          console.log("polling error", err);
+        });
+
+      setTimeout(pollCurrentLocation, 1000);
+    };
+
+
     AuthService.userInfo().then(function(user){       
         
       $rootScope.userId = user.id;
@@ -17,6 +36,25 @@ angular.module('starter', ['ionic', 'ngCordova', /* 'ngGeolocation',*/ 'monospac
       console.log("is Authenticated: " + $rootScope.loggedIn);
       console.log("username: " + $rootScope.username);
       if($rootScope.loggedIn) {
+        coordObj = {  id : $rootScope.userId,
+                      coordinates : $rootScope.coordinates
+                    };
+
+        Coordinates.sendCoordinates(coordObj)
+        .success(function(data){
+            Coordinates.all()
+            .success(function(data) {
+               $rootScope.allCoordinates = data;
+               $state.go('canvas');
+            })
+            .error(function(err){
+              console.log(err);
+            });
+        })
+        .error(function(err){
+          console.log(err);
+        })
+        
         $state.go('canvas');
       }
       
@@ -76,6 +114,8 @@ angular.module('starter', ['ionic', 'ngCordova', /* 'ngGeolocation',*/ 'monospac
          //StatusBar.styleDefault();
          StatusBar.hide();
       }
+
+      pollCurrentLocation();
      /* ionic.Platform.fullScreen();
       if (window.StatusBar) {
         return StatusBar.hide();

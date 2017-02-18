@@ -337,6 +337,48 @@
         });
     });
 
+    //get all coordinates
+    apiRoutes.get('/coordinates', function(req, res){        
+        User.find(null, function(err, user){
+            if (err)
+            res.send(err);
+            var coord = {username : user.username,
+                        coordinates: coordinates};
+            console.log("Coordinates:" + coord);
+            res.json(coord); 
+        });
+    });
+
+    //get coordinates by user
+    apiRoutes.get('/coordinates/:id', function(req, res) {  
+        var id = req.params.id;       
+        User.findbyId(id, {coordinates :1}, function(err, coordinates){
+            if (err)
+            res.send(err);
+            console.log("Coordinates:" + coordinates);
+            res.json(coordinates); 
+        });
+    });
+
+    //save coordinates by user
+    apiRoutes.post('/coordinates', function(req, res) {  
+        var id = req.body.id;
+        var coords = req.body.coord;       
+        User.findOne({_id: id}, function(err, user) {
+            user.coordinates = coords;           
+            user.save(function(err) {
+              if (err) {
+                return res.json({success: false, msg: "Coordinates could not been saved"});
+              }
+              res.json({success: true, msg: 'Coordinates has been saved'});
+            });
+        });
+    });
+
+
+
+
+
    
 
 

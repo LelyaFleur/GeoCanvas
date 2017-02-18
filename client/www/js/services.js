@@ -219,6 +219,31 @@ angular.module('starter')
 })
 
 
+.factory('Coordinates', function(){
+
+
+})
+
+.factory('Coordinates', ['$http', 'API_ENDPOINT', function CoordinatesFactory($http, API_ENDPOINT){
+    var base = "http://localhost:8080";
+   // var base = "http://46.101.159.166:8080";
+    return {
+      all: function(){        
+        return $http({method: 'GET', url: API_ENDPOINT.url + "/coordinates"});
+      },
+      getCoordinates: function(user){
+        return $http({method: 'GET', url: API_ENDPOINT.url + "/coordinates/" + user});
+      },    
+      sendCoordinates: function(coordObj){
+        return $http({method: 'POST', url: API_ENDPOINT.url + "/coordinates", data: coordObj});
+      },
+      update: function(user, coordObj) {
+         return $http({method: 'PUT', url: API_ENDPOINT.url + "/coordinates/"+ user, data: coordObj});
+      }
+    };
+ }])
+
+
 .factory('SharedData', function () {
     var categories = [] ;
     var polls = [];
