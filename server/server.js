@@ -342,7 +342,7 @@
         User.find(null, function(err, user) {
             if (err)
             res.send(err);
-            var coord = {username : user.username,
+            var coord = {username : user.name,
                         coordinates: user.coordinates};
             console.log("Name:" + coord.username);
             console.log("Coordinates:" + coord.coordinates);

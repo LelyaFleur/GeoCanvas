@@ -47,14 +47,14 @@ angular.module('starter', ['ionic', 'ngCordova', /* 'ngGeolocation',*/ 'monospac
 
         Coordinates.sendCoordinates(coordObj)
         .success(function(data){
-          /*  Coordinates.all()
+            Coordinates.all()
             .success(function(data) {
                $rootScope.allCoordinates = data;
                $state.go('canvas');
             })
             .error(function(err){
               console.log(err);
-            });*/
+            });
         })
         .error(function(err){
           console.log(err);
