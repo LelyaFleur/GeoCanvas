@@ -108,6 +108,7 @@ angular.module('starter')
 
       $http.post(API_ENDPOINT.url + '/authenticate', user).then(function(result) {
         if (result.data.success) {
+          console.log("I'm inside usercredentials");
           storeUserCredentials(result.data);
           resolve(result.data);
         } else {

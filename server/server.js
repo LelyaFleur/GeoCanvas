@@ -153,7 +153,7 @@
           if(creature.telephone === req.body.telephone) {
             // if user is found and password is right create a token
              var token = jwt.encode(creature, config.secret);
-             res.json({success: true, token: 'JWT ' + token, coordinates: creature.temporal});
+             res.json({success: true, token: 'JWT ' + token, id: creature._id, username: creature.name, coordinates: creature.coordinates});
           } else {
             res.send({success: false, msg: "Telephone doesn't match"});
           }          
