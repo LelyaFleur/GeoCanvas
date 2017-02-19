@@ -340,6 +340,7 @@
             if (err)
             res.send(err);
             console.log("creature:" + creature);
+            console.log("creature name:" + creature.name);
             var coord = {username : creature.name,
                         coordinates: creature.coordinates};
             console.log("Name:" + coord.username);
@@ -364,18 +365,20 @@
         var id = req.body.id;
         var coords = req.body.coordinates;  
         console.log("user is:" + id);
-        console.log("coordinates:" + coords)     
+        console.log("coordinates:" + coords.lat, coords.long); 
         Creature.findOne({_id: id}, function(err, creature) {
             if (err)
             res.send(err);
 
             creature.coordinates = coords;           
-            creature.save(function(err) {
+            /*creature.save(function(err) {
               if (err) {
                 return res.json({success: false, msg: "Coordinates could not been saved"});
               }
               res.json({success: true, msg: 'Coordinates has been saved'});
-            });
+            });*/
+            creature.save();
+             res.json({success: true, msg: 'Coordinates has been saved'});
         });
     });
 
