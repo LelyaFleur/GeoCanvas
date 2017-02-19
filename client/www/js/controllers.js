@@ -1,9 +1,18 @@
 angular.module('starter')
  
 .controller('LoginController', function($scope, $rootScope, AuthService, $ionicPopup, $state) {
+  if( $rootScope.coordinates.lat === undefined || $rootScope.coordinates.long === undefined) {
+          $rootScope.coordinates.lat = 0.0;
+          $rootScope.coordinates.long = 0.0;
+        }
+        
   $scope.user = {
     name: '',
-    password: ''
+    password: '',
+    coordinates: {
+      lat: $rootScope.coordinates.lat,
+      long: $rootScope.coordinates.long
+    }
   };
 
   $scope.login = function() {
@@ -11,22 +20,8 @@ angular.module('starter')
         $rootScope.username = data.username;
         $rootScope.userId = data.id;
         $rootScope.loggedIn = true; 
-        if( $rootScope.coordinates.lat === undefined || $rootScope.coordinates.long === undefined) {
-          $rootScope.coordinates.lat = 0.0;
-          $rootScope.coordinates.long = 0.0;
-        }
-        coordObj = {  id : $rootScope.userId,
-                      coordinates : $rootScope.coordinates
-                    };
-        Coordinates.sendCoordinates(coordObj)
-        .success(function(data) {
-           console.log(data);
-           $state.go('canvas');
-        })
-        .error(function(err){
-          console.log(err);
-        })
-      
+        
+        $state.go('canvas');
        
       
     }, function(errMsg) {

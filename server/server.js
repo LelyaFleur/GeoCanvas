@@ -361,11 +361,13 @@
     //save coordinates by user
     apiRoutes.post('/coordinates', function(req, res) {  
         var id = req.body.id;
-        var coords = req.body.coord;       
+        var coords = req.body.coord;  
+        console.log("user is:" + id);
+        console.log("coordinates:" + coords)     
         Creature.findOne({_id: id}, function(err, creature) {
             if (err)
             res.send(err);
-        
+
             creature.coordinates = coords;           
             creature.save(function(err) {
               if (err) {
