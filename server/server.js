@@ -336,9 +336,10 @@
 
     //get all coordinates
     apiRoutes.get('/coordinates', function(req, res){        
-        Creature.find(null, function(err, creature) {
+        Creature.find(function(err, creature) {
             if (err)
             res.send(err);
+            console.log("creature:" + creature);
             var coord = {username : creature.name,
                         coordinates: creature.coordinates};
             console.log("Name:" + coord.username);

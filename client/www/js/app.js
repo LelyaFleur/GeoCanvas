@@ -55,7 +55,8 @@ angular.module('starter', ['ionic', 'ngCordova', /* 'ngGeolocation',*/ 'monospac
                     };
 
         Coordinates.sendCoordinates(coordObj)
-        .success(function(data){
+        .success(function(data) {
+          // $state.go('canvas');
             Coordinates.all()
             .success(function(data) {
                $rootScope.allCoordinates = data;
@@ -69,7 +70,7 @@ angular.module('starter', ['ionic', 'ngCordova', /* 'ngGeolocation',*/ 'monospac
           console.log(err);
         })
         
-        $state.go('canvas');
+       
       }
       
     });
