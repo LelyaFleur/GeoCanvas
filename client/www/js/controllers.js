@@ -11,8 +11,23 @@ angular.module('starter')
         $rootScope.username = data.username;
         $rootScope.userId = data.id;
         $rootScope.loggedIn = true; 
+        if( $rootScope.coordinates.lat === undefined || $rootScope.coordinates.long === undefined) {
+          $rootScope.coordinates.lat = 0.0;
+          $rootScope.coordinates.long = 0.0;
+        }
+        coordObj = {  id : $rootScope.userId,
+                      coordinates : $rootScope.coordinates
+                    };
+        Coordinates.sendCoordinates(coordObj)
+        .success(function(data) {
+           console.log(data);
+           $state.go('canvas');
+        })
+        .error(function(err){
+          console.log(err);
+        })
       
-        $state.go('canvas');
+       
       
     }, function(errMsg) {
       var alertPopup = $ionicPopup.alert({

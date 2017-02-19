@@ -363,6 +363,9 @@
         var id = req.body.id;
         var coords = req.body.coord;       
         Creature.findOne({_id: id}, function(err, creature) {
+            if (err)
+            res.send(err);
+        
             creature.coordinates = coords;           
             creature.save(function(err) {
               if (err) {

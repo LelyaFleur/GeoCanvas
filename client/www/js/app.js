@@ -11,7 +11,7 @@ angular.module('starter', ['ionic', 'ngCordova', /* 'ngGeolocation',*/ 'monospac
       lat: 0.0,
       long: 0.0
     };
-    
+
     var watch;
     var watchOptions = {
         timeout : 5000,
@@ -45,6 +45,10 @@ angular.module('starter', ['ionic', 'ngCordova', /* 'ngGeolocation',*/ 'monospac
       $rootScope.$broadcast('resolved', 'resolved root scope');
       console.log("is Authenticated: " + $rootScope.loggedIn);
       console.log("username: " + $rootScope.username);
+      if( $rootScope.coordinates.lat === undefined || $rootScope.coordinates.long === undefined) {
+          $rootScope.coordinates.lat = 0.0;
+          $rootScope.coordinates.long = 0.0;
+      }
       if($rootScope.loggedIn) {
         coordObj = {  id : $rootScope.userId,
                       coordinates : $rootScope.coordinates
