@@ -340,12 +340,8 @@
             if (err)
             res.send(err);
             console.log("creature:" + creature);
-            console.log("creature name:" + creature.name);
-            var coord = {username : creature.name,
-                        coordinates: creature.coordinates};
-            console.log("Name:" + coord.username);
-            console.log("Coordinates:" + coord.coordinates);
-            res.json(coord); 
+            
+            res.json(creature); 
         });
     });
 

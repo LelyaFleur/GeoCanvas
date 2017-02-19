@@ -28,6 +28,23 @@ angular.module('starter', ['ionic', 'ngCordova', /* 'ngGeolocation',*/ 'monospac
          
           $rootScope.coordinates.lat = lat;
           $rootScope.coordinates.long = long;
+
+          coordObj = {  id : $rootScope.userId,
+                        coordinates : $rootScope.coordinates
+                    };
+
+          Coordinates.sendCoordinates(coordObj)
+          .success(function(data) {
+            // $state.go('canvas');
+             console.log(data);
+          })
+          .error(function(err){
+            console.log(err);
+          })
+
+
+
+
         }, function(err) {
           // error
           console.log("polling error", err);
@@ -54,23 +71,14 @@ angular.module('starter', ['ionic', 'ngCordova', /* 'ngGeolocation',*/ 'monospac
                       coordinates : $rootScope.coordinates
                     };
 
-        Coordinates.sendCoordinates(coordObj)
-        .success(function(data) {
-          // $state.go('canvas');
-            Coordinates.all()
-            .success(function(data) {
-               $rootScope.allCoordinates = data;
-               $state.go('canvas');
-            })
-            .error(function(err){
-              console.log(err);
-            });
-        })
-        .error(function(err){
-          console.log(err);
-        })
-        
-       
+        Coordinates.all()
+          .success(function(data) {
+             $rootScope.allCoordinates = data;
+             $state.go('canvas');
+          })
+          .error(function(err){
+            console.log(err);
+          });       
       }
       
     });

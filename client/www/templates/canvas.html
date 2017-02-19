@@ -7,6 +7,7 @@
 	<ion-content class="splash" style ="color:white;" scroll ="false">
 	
 	Last location: {{lastLocation.lat}},{{lastLocation.long}} Current location : {{currentLocation.lat}} , {{currentLocation.long}}
+	All creatures: {{$rootScope.allCoordinates}}
 	<button class="button button-positive button-clear button-full" ng-click="$root.logout()">Log out</button>
 	
 		<!--<div class="branding">
