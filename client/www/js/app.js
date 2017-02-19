@@ -7,6 +7,11 @@ angular.module('starter', ['ionic', 'ngCordova', /* 'ngGeolocation',*/ 'monospac
 
   .run(function ($rootScope, $state, $location, $cordovaGeolocation, $q, $http, $ionicPlatform, $ionicPickerI18n, AuthService, Coordinates, SharedData, AUTH_EVENTS) {    
     
+    $rootScope.coordinates = {
+      lat: 0.0,
+      long: 0.0
+    };
+    
     var watch;
     var watchOptions = {
         timeout : 5000,

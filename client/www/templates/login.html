@@ -1,7 +1,7 @@
 
 <ion-header-bar align-title="center" class="bar-dark"> 
      
- 	 <h1 class="title title-center">Identificació</h1>     
+ 	 <h1 class="title title-center">Login</h1>     
 </ion-header-bar>
 <ion-view cache-view="false">
 	<ion-content class = "gap">
@@ -9,15 +9,15 @@
 		<!--<p class="text-center" style= "color:#fff;font-size:20px;">Identificació</p>-->		
 			<label class="item item-input semi-dark styled-item round" style = "margin-left: 0!important; margin-right: 0!important;">
 				
-				<input  type="text" name="username" ng-model="user.name" placeholder="Nom d'usuari" required style = "color:#fff; font-size: 20px;">
+				<input  type="text" name="username" ng-model="user.name" placeholder="Username" required style = "color:#fff; font-size: 20px;">
 			</label>
 			<label class="item item-input semi-dark styled-item round" style = "margin-left: 0!important; margin-right: 0!important;">
 				
-				<input type="password" name="password" ng-model="user.password" placeholder="Contrassenya" required style = "color:#fff; font-size: 20px;">
+				<input type="number" name="telephone" ng-model="user.telephone" placeholder="Phone number" required style = "color:#fff; font-size: 20px;">
 			</label>
 			
 			<button type = "submit" class="button button-block semi-dark round" ng-disabled="$root.loggedIn || !loginForm.$valid" required style = "color:#fff; font-size: 20px;margin-top:40px;">
-					Entrar
+					Login
 			</button>
 					
 		</form>

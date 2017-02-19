@@ -219,14 +219,8 @@ angular.module('starter')
 })
 
 
-.factory('Coordinates', function(){
-
-
-})
-
 .factory('Coordinates', ['$http', 'API_ENDPOINT', function CoordinatesFactory($http, API_ENDPOINT){
-    var base = "http://localhost:8080";
-   // var base = "http://46.101.159.166:8080";
+   
     return {
       all: function(){        
         return $http({method: 'GET', url: API_ENDPOINT.url + "/coordinates"});

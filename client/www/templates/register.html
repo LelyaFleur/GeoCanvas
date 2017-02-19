@@ -1,14 +1,14 @@
 
-<ion-header-bar align-title="left" class="bar-dark">
-  <a class="button button-clear" href="#/tab/super-admin-users">
+<ion-header-bar align-title="center" class="bar-dark">
+ <!-- <a class="button button-clear" href="#/tab/super-admin-users">
       <i class = "ion-arrow-left-c" style = "font-size:20px;"></i>
-  </a>     
-  <h1 class="title title-center">Alta d'Usuari</h1>
-  <div class="buttons">
+  </a>    --> 
+  <h1 class="title title-center">Sign up</h1>
+ <!-- <div class="buttons">
         <button class="button button-clear" ng-show = "$root.loggedIn"
    ng-click="popover.show($event)" style="display: inline-block; font-size: 12px; line-height: 10px; padding: 5px;"><i class="ion-person" style="display: block;font-size: 16px;"></i>{{$root.username}}
         </button>
-      </div>
+      </div>-->
 </ion-header-bar>
 <ion-view cache-view="false">
   <ion-content>
@@ -21,23 +21,36 @@
       <div class="help-block" ng-messages="signupForm.username.$error" ng-if="signupForm.username.$touched || signupForm.$submitted">
       <div class="error" ng-message="required">
             <i class="ion-information-circled"></i> 
-             Es requereix el nom d'usuari
+             Username required
         </div>          
       </div>
 
+
+      
+
       <!--password --> 
       <label class="item item-input semi-dark styled-item round" style = "margin-left: 0!important; margin-right: 0!important;">        
-        <input type="password" name="password" ng-model="user.password" placeholder="Contrassenya" required style = "color:#fff; font-size: 20px;">
+        <input type="number" name="telephone" ng-model="user.telephone" placeholder="Phone number"  ng-minlength="9" 
+             ng-maxlength="10" required style = "color:#fff; font-size: 20px;">
       </label>
-      <div class="help-block" ng-messages="signupForm.password.$error" ng-if="signupForm.password.$touched || signupForm.$submitted">
+      <div class="help-block" ng-messages="signupForm.telephone.$error" ng-if="signupForm.telephone.$touched || signupForm.$submitted">
         <div class="error" ng-message="required">
             <i class="ion-information-circled"></i> 
-             Es requereix la contrassenya
-        </div>          
+             Phone number required
+        </div> 
+        <div class="error" ng-message="minlength">
+            <i class="ion-information-circled"></i> 
+             Phone number is too short
+        </div> 
+        <div class="error" ng-message="maxlength">
+            <i class="ion-information-circled"></i> 
+             Phone number is too long
+        </div> 
+             
       </div>     
       
       <button type = "submit" class="button button-block semi-dark round" style = "color:#fff; font-size: 20px;margin-top:40px;">
-          Donar d'Alta
+          Sign up
       </button>
           
     </form>

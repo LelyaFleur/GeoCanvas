@@ -16,65 +16,18 @@
     var config  = require('./config/database'); // get db config file  
     var lt = require('long-timeout'); 
    
-    var User = require('./models/user');     
+    var User = require('./models/user');  
+    var Creature = require('./models/creature');   
     
     var port        = process.env.PORT || 3000;
     var jwt         = require('jwt-simple');
     var server = null;
     var io = null;
-
-
-    
-   
-
-    /*
-    npm install nodemailer-smtp-transport*/
-    var transporter = nodemailer.createTransport(smtpTransport({
-    host: 'smtp.esquerra.cat',
-    port: 465,
-    secure: true, // use SSL 
-    auth: {
-            user: 'fedgirona@esquerra.cat',
-            pass: '@Ultonia23'
-        },   
-    tls: {
-        rejectUnauthorized: false
-    }
-    }));
-  /*  var smtpConfig = {
-    host: 'smtp.esquerra.cat',
-    port: 465,
-    secure: true, // use SSL 
-    auth: {
-        user: 'fedgirona@esquerra.cat',
-        pass: '@Ultonia23'
-    }
-    };
-
-    var transporter = nodemailer.createTransport('smtps://lelya.fleur%40gmail.com:svinka5pyatochok@smtp.gmail.com');*/
-
-    /*
-    //http://stackoverflow.com/questions/26099487/smtp-using-nodemailer-in-nodejs-without-gmail
-    var smtpTransport = nodemailer.createTransport('SMTP', {
-    host: 'yourserver.com',
-    port: 25,
-    auth: {
-        user: 'username',
-        pass: 'password'
-    }
-    });*/
     
     // configuration =================
 
     // CORS
     app.use(function(req, res, next) {
-       /* res.header('Access-Control-Allow-Origin', "*");
-        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-        res.header('Access-Control-Allow-Headers', 'Content-Type');
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-        next();*/
-
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.setHeader("Access-Control-Allow-Credentials", "true");
         res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");
@@ -92,7 +45,6 @@
      
     // Use the passport package in our application
     app.use(passport.initialize());
-
    
      
     // demo Route (GET http://localhost:8080)
@@ -117,7 +69,7 @@
     var apiRoutes = express.Router();
     //User 
     // create a new user account (POST http://localhost:8080/api/signup)
-    apiRoutes.post('/signup', function(req, res) {
+   /* apiRoutes.post('/signup', function(req, res) {
       console.log("creating profile...");
       if (!req.body.name || !req.body.password) {
         res.json({success: false, msg: "Si us plau, introdueix la informaciño necesària de l'usuari"});
@@ -135,9 +87,6 @@
         });
       }
     });
-     
-    // connect the api routes under /api/*
-    app.use('/api', apiRoutes);
 
     // route to authenticate a user (POST http://localhost:8080/api/authenticate)
     apiRoutes.post('/authenticate', function(req, res) {
@@ -165,6 +114,54 @@
         }
       });
     });
+
+*/
+
+    apiRoutes.post('/signup', function(req, res) {
+      console.log("creating profile...");
+      console.log("coordinates:" + req.body.coordinates);
+      if (!req.body.name || !req.body.telephone) {
+        res.json({success: false, msg: "Please, enter the necessary information of the user"});
+      } else {
+        var newCreature = new Creature({
+          name: req.body.name,
+          telephone: req.body.telephone,
+          coordinates: req.body.coordinates          
+        });
+        // save the user
+        newCreature.save();
+        res.json({success: true, msg: 'New user has been created'});       
+      }
+    });
+     
+    // connect the api routes under /api/*
+    app.use('/api', apiRoutes);
+
+    // route to authenticate a user (POST http://localhost:8080/api/authenticate)
+    apiRoutes.post('/authenticate', function(req, res) {
+      console.log(req.body);
+      
+      Creature.findOne({
+        name: req.body.name
+      }, function(err, creature) {
+        if (err) throw err;
+        console.log("creature:" + creature);
+        if (!creature) {
+          res.send({success: false, msg: "Cannot find the user"});
+        } else {
+          // check if telephone matches
+          if(creature.telephone === req.body.telephone) {
+            // if user is found and password is right create a token
+             var token = jwt.encode(creature, config.secret);
+             res.json({success: true, token: 'JWT ' + token, coordinates: creature.temporal});
+          } else {
+            res.send({success: false, msg: "Telephone doesn't match"});
+          }          
+        }
+      });
+    });
+
+
     // route to a restricted info (GET http://localhost:8080/api/memberinfo)
     apiRoutes.get('/memberinfo', passport.authenticate('jwt', { session: false}), function(req, res) {
       var token = getToken(req.headers);
@@ -339,11 +336,11 @@
 
     //get all coordinates
     apiRoutes.get('/coordinates', function(req, res){        
-        User.find(null, function(err, user) {
+        Creature.find(null, function(err, creature) {
             if (err)
             res.send(err);
-            var coord = {username : user.name,
-                        coordinates: user.coordinates};
+            var coord = {username : creature.name,
+                        coordinates: creature.coordinates};
             console.log("Name:" + coord.username);
             console.log("Coordinates:" + coord.coordinates);
             res.json(coord); 
@@ -353,7 +350,7 @@
     //get coordinates by user
     apiRoutes.get('/coordinates/:id', function(req, res) {  
         var id = req.params.id;       
-        User.findbyId(id, {coordinates :1}, function(err, coordinates){
+        Creature.findbyId(id, {coordinates :1}, function(err, coordinates){
             if (err)
             res.send(err);
             console.log("Coordinates:" + coordinates);
@@ -365,9 +362,9 @@
     apiRoutes.post('/coordinates', function(req, res) {  
         var id = req.body.id;
         var coords = req.body.coord;       
-        User.findOne({_id: id}, function(err, user) {
-            user.coordinates = coords;           
-            user.save(function(err) {
+        Creature.findOne({_id: id}, function(err, creature) {
+            creature.coordinates = coords;           
+            creature.save(function(err) {
               if (err) {
                 return res.json({success: false, msg: "Coordinates could not been saved"});
               }
