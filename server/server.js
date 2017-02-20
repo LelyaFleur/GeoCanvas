@@ -336,12 +336,12 @@
 
     //get all coordinates
     apiRoutes.get('/coordinates', function(req, res){        
-        Creature.find(function(err, creature) {
+        Creature.find(function(err, creatures) {
             if (err)
             res.send(err);
-            console.log("creature:" + creature);
+            console.log("creature:" + creatures);
             
-            res.json(creature); 
+            res.json(creatures); 
         });
     });
 

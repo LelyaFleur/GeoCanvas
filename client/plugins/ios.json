@@ -25,6 +25,9 @@
         "cordova-plugin-geolocation": {
             "GEOLOCATION_USAGE_DESCRIPTION": " ",
             "PACKAGE_NAME": "com.ionicframework.geocanvas591718"
+        },
+        "cordova-plugin-device-orientation": {
+            "PACKAGE_NAME": "com.ionicframework.geocanvas591718"
         }
     },
     "dependent_plugins": {

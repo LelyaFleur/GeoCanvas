@@ -22,6 +22,7 @@
 		7E2F4FE715A346ECBFD1910E /* IonicKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D429ACA13F04ACA916EC5DA /* IonicKeyboard.m */; };
 		98B764D91FA040AAB04F2C87 /* CDVLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = EC624D9FD7EF443CA3BCD023 /* CDVLocation.m */; };
 		A1B7BAA73FF24CE5B3CCDEFA /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A4A2BB5C24145228D0CF103 /* CoreLocation.framework */; };
+		46803CAD7262436B9A8BABE7 /* CDVCompass.m in Sources */ = {isa = PBXBuildFile; fileRef = DF122BC548C04C19A588A2B5 /* CDVCompass.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +74,8 @@
 		EC624D9FD7EF443CA3BCD023 /* CDVLocation.m */ = {isa = PBXFileReference; name = "CDVLocation.m"; path = "cordova-plugin-geolocation/CDVLocation.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
 		0293679F2BC6454F8E9478C4 /* CDVLocation.h */ = {isa = PBXFileReference; name = "CDVLocation.h"; path = "cordova-plugin-geolocation/CDVLocation.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 		1A4A2BB5C24145228D0CF103 /* CoreLocation.framework */ = {isa = PBXFileReference; name = "CoreLocation.framework"; path = "System/Library/Frameworks/CoreLocation.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		DF122BC548C04C19A588A2B5 /* CDVCompass.m */ = {isa = PBXFileReference; name = "CDVCompass.m"; path = "cordova-plugin-device-orientation/CDVCompass.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		3CB9317F0CEC488FB27ED7DD /* CDVCompass.h */ = {isa = PBXFileReference; name = "CDVCompass.h"; path = "cordova-plugin-device-orientation/CDVCompass.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +191,8 @@
 				987E045E4BB044F9A4BBAFC2 /* IonicKeyboard.h */,
 				EC624D9FD7EF443CA3BCD023 /* CDVLocation.m */,
 				0293679F2BC6454F8E9478C4 /* CDVLocation.h */,
+				DF122BC548C04C19A588A2B5 /* CDVCompass.m */,
+				3CB9317F0CEC488FB27ED7DD /* CDVCompass.h */,
 			);
 			name = Plugins;
 			path = "geoCanvas/Plugins";
@@ -305,6 +310,7 @@
 				EFFF900293B94D4CA101F456 /* CDVStatusBar.m in Sources */,
 				7E2F4FE715A346ECBFD1910E /* IonicKeyboard.m in Sources */,
 				98B764D91FA040AAB04F2C87 /* CDVLocation.m in Sources */,
+				46803CAD7262436B9A8BABE7 /* CDVCompass.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

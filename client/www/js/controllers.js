@@ -72,61 +72,72 @@ angular.module('starter')
   };
 })
 
-.controller('CanvasController', function($scope, /*$geolocation,*/$ionicPlatform, $cordovaGeolocation) {
-   
-
-
-  function findBoundingBox(points) {
-    
-    var boundingBox = {
-      min : {x: Number.MAX_VALUE, y: Number.MAX_VALUE },
-      max : {x: Number.NEGATIVE_INFINITY, y: Number.NEGATIVE_INFINITY}
-    };
-
-    points.forEach(function(point){
-      if(point.x > boundingBox.max.x) {
-        boundingBox.max.x = point.x;
-      }
-
-      if(point.y > boundingBox.max.y) {
-        boundingBox.max.y = point.y;
-      }
-
-      if(point.x < boundingBox.min.x) {
-        boundingBox.min.x = point.x;
-      }
-
-      if(point.y < boundingBox.min.y) {
-        boundingBox.min.y = point.y;
-      }
-
-    });
-
-    return boundingBox;
-
-  }
+.controller('CanvasController', function($scope, $rootScope, $ionicPlatform, $cordovaGeolocation, $cordovaDeviceOrientation, Coordinates) {
+  
+  $scope.points = [];
  
 
- /*  $geolocation.watchPosition({
-              timeout: 60000,
-              maximumAge: 250,
-              enableHighAccuracy: true
-          });
-  $scope.myPosition = $geolocation.position; // this object updates regularly, it has 'error' property which is a 'truthy' and also 'code' and 'message' property if an error occurs
+  Coordinates.all()
+    .success(function(data) {
+       $rootScope.allCoordinates = data; 
+       console.log("creatures:" + data);
+       var coords = [];
 
-  //It has all the location data 
-  console.log("coord:" + $scope.myPosition.coords);
+       $rootScope.allCoordinates.forEach(function(creature) {
+        var point = {x: creature.coordinates.lat, y: creature.coordinates.long};
+        coords.push(point);
+       });
 
-  //It's truthy and gets defined when error occurs 
-  '$scope.myPosition.error'*/
+       $scope.points = coords;     
+       console.log("points:" + $scope.points);
+                    
+    })
+    .error(function(err){
+      console.log(err);
+    }); 
+  
 
-
-  var watch;
+  var watch, watchCompass;
+  var compassOptions = {
+    frequency: 3000,
+    filter: true     // if frequency is set, filter is ignored
+  };
   var watchOptions = {
     timeout : 5000,
     maximumAge: 3000,
     enableHighAccuracy: true // may cause errors if true
   };
+
+
+  var getCompass = function() {
+    $cordovaDeviceOrientation.getCurrentHeading().then(function(result) {
+       $scope.magneticHeading = result.magneticHeading;
+       $scope.trueHeading = result.trueHeading;
+       $scope.accuracy = result.headingAccuracy;
+       $scope.timeStamp = result.timestamp;
+    }, function(err) {
+      // An error occurred
+    });
+
+    setTimeout(getCompass, 1000);
+
+  }
+
+  var watchCompass = function() {
+    watchCompass = $cordovaDeviceOrientation.watchHeading(compassOptions);
+    watchCompass.then(
+      null,
+      function(error) {
+        // An error occurred
+      },
+      function(result) {   // updates constantly (depending on frequency value)
+        $scope.magneticHeading = result.magneticHeading;
+        $scope.trueHeading = result.trueHeading;
+        $scope.accuracy = result.headingAccuracy;
+        $scope.timeStamp = result.timestamp;
+      });
+  }
+
 
   var pollCurrentLocation = function() {
     $cordovaGeolocation.getCurrentPosition(watchOptions)
@@ -140,12 +151,26 @@ angular.module('starter')
 
         $scope.currentPollingLocation.lat = lat;
         $scope.currentPollingLocation.long = long;
+
+
+         coordObj = {  id : $rootScope.userId,
+                       coordinates : $scope.currentPollingLocation
+                    };
+
+          Coordinates.sendCoordinates(coordObj)
+          .success(function(data) {
+             
+          })
+          .error(function(err){
+            console.log(err);
+          });
+
       }, function(err) {
         // error
         console.log("polling error", err);
       });
 
-    setTimeout(pollCurrentLocation, 1000);
+    setTimeout(pollCurrentLocation, 10000);
   };
 
   var watchCurrentLocation = function() {
@@ -166,8 +191,50 @@ angular.module('starter')
 
         $scope.currentLocation.lat = lat;
         $scope.currentLocation.long = long;
+
+        Coordinates.all()
+          .success(function(data) {
+             $rootScope.allCoordinates = data; 
+             console.log("creatures:" + data);
+             var coords = [];
+
+             $rootScope.allCoordinates.forEach(function(creature) {
+              var point = {x: creature.coordinates.lat, y: creature.coordinates.long};
+              coords.push(point);
+             });
+
+             $scope.points = coords;     
+             console.log("points:" + $scope.points);
+            /* $scope.points = [
+                   { x: 25, y: 57},
+                   { x: 125, y: 7 },
+                   { x: 55, y: 68 },
+                   { x: 195, y: 37 },
+                   { x: 76, y: 35 },
+                   { x: 5, y: 207 },
+                ];
+                $scope.boundingBox = {};*/
+                
+
+                     
+    })
+    .error(function(err){
+      console.log(err);
+    });  
     });
   };
+
+
+
+  //The heading in degrees from 0-359.99 at a single moment in time. (Number)
+  $scope.magneticHeading = null;
+  //The heading relative to the geographic North Pole in degrees 0-359.99 at a single moment in time. A negative value indicates that the true heading can't be determined. (Number)
+  $scope.trueHeading = null;
+  //The deviation in degrees between the reported heading and the true heading. (Number)
+  $scope.accuracy = null;
+  // The time at which this heading was determined. (DOMTimeStamp)
+  $scope.timeStamp = null;
+
 
   $scope.lastLocation = {
     lat: null,
@@ -189,29 +256,23 @@ angular.module('starter')
     long: null
   };
 
-  $scope.points = [
-     { x: 25, y: 57},
-     { x: 125, y: 7 },
-     { x: 55, y: 68 },
-      { x: 195, y: 37 },
-     { x: 76, y: 35 },
-     { x: 5, y: 207 },
-  ];
-  $scope.boundingBox = {};
   $scope.lat = 0;
   $scope.long = 0;
-
-  $scope.boundingBox = findBoundingBox($scope.points);
+  
 
   $ionicPlatform.ready(function() {
+    watchCompass();
+    getCompass();
     watchCurrentLocation();
-
     pollCurrentLocation();
   });
 
   $scope.$on("$destroy", function() {
     if (watch) {
       watch.clearWatch();
+    }
+    if(watchCompass) {
+      watchCompass.clearWatch();
     }
   });
       

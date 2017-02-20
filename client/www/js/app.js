@@ -29,22 +29,6 @@ angular.module('starter', ['ionic', 'ngCordova', /* 'ngGeolocation',*/ 'monospac
           $rootScope.coordinates.lat = lat;
           $rootScope.coordinates.long = long;
 
-          coordObj = {  id : $rootScope.userId,
-                        coordinates : $rootScope.coordinates
-                    };
-
-          Coordinates.sendCoordinates(coordObj)
-          .success(function(data) {
-            // $state.go('canvas');
-             console.log(data);
-          })
-          .error(function(err){
-            console.log(err);
-          })
-
-
-
-
         }, function(err) {
           // error
           console.log("polling error", err);
@@ -62,23 +46,18 @@ angular.module('starter', ['ionic', 'ngCordova', /* 'ngGeolocation',*/ 'monospac
       $rootScope.$broadcast('resolved', 'resolved root scope');
       console.log("is Authenticated: " + $rootScope.loggedIn);
       console.log("username: " + $rootScope.username);
-      if( $rootScope.coordinates.lat === undefined || $rootScope.coordinates.long === undefined) {
-          $rootScope.coordinates.lat = 0.0;
-          $rootScope.coordinates.long = 0.0;
-      }
-      if($rootScope.loggedIn) {
-        coordObj = {  id : $rootScope.userId,
-                      coordinates : $rootScope.coordinates
-                    };
-
-        Coordinates.all()
-          .success(function(data) {
-             $rootScope.allCoordinates = data;
-             $state.go('canvas');
-          })
-          .error(function(err){
-            console.log(err);
-          });       
+      
+      if($rootScope.loggedIn) {     
+           Coordinates.all()
+            .success(function(data) {
+               $rootScope.allCoordinates = data; 
+               console.log("creatures:" + data);
+                           
+            })
+            .error(function(err){
+              console.log(err);
+            });  
+          $state.go('canvas');            
       }
       
     });
@@ -138,7 +117,7 @@ angular.module('starter', ['ionic', 'ngCordova', /* 'ngGeolocation',*/ 'monospac
          StatusBar.hide();
       }
 
-      pollCurrentLocation();
+     // pollCurrentLocation();
      /* ionic.Platform.fullScreen();
       if (window.StatusBar) {
         return StatusBar.hide();
