@@ -105,20 +105,37 @@ angular.module('starter')
       // var boundingBox = JSON.parse(scope.boundingBox);
       //var points = JSON.parse(scope.points);
       var points = scope.points;
-      var myPosition = {x: 0, y : 0};
+      var myPosition = {x: 41.9725233, y : 2.7842};
       /*var points = points = [];
       var point1 = {x: 200.0, y: 100.0};
       points.push(point1);
       var currentPositionX = 0.0;
       var currentPositionY = 0.0;*/
+      var pointsTransformed = []
 
       var compass = scope.compass;
       var scaleFactor = computeScaleFactor();
       console.log("ScaleFactor: " + scaleFactor);
-      //drawPoints();
+      processPoints();
+      drawPoints();
+
+      function processPoints(){
+           points.forEach(function(point){
+            var φ1 = myPosition.x * Math.PI / 180, φ2 = point.x * Math.PI / 180, Δλ = (myPosition.y-point.y) * Math.PI / 180, R = 6371e3; // gives d in metres
+            var d = Math.acos( Math.sin(φ1)*Math.sin(φ2) + Math.cos(φ1)*Math.cos(φ2) * Math.cos(Δλ) ) * R;
+            var y = Math.sin(myPosition.y-point.y) * Math.cos(φ2);
+            var x = Math.cos(φ1)*Math.sin(φ2) -
+            Math.sin(φ1)*Math.cos(φ2)*Math.cos(myPosition.y-point.y);
+            var brng = Math.atan2(y, x).toDegrees();
+            var unitVector = {x: Math.sin(brng * Math.PI / 180), y: Math.cos(brng * Math.PI / 180)};
+            var actualVector = {x: unitVector.x * d, y: unitVector.y * d};
+            pointsTransformed.push(actualVector);
+           });
+      }
 
       function drawPoints() {
         scaleFactor = computeScaleFactor();
+        console.log("ScaleFactor: " + scaleFactor);
         radius = 2;
         context.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -129,7 +146,7 @@ angular.module('starter')
 
 
         // We draw the other user
-        points.forEach(function(point){
+        pointsTransformed.forEach(function(point){
           //console.log("CurrentPosition: " + myPosition.x + " " + myPosition.y);
           //console.log("CurrentPoint: " + point.x + " " + point.y);
           /*console.log("step0X: " + point.x);
@@ -141,7 +158,7 @@ angular.module('starter')
           console.log("PointX: " + ((point.x - currentPositionX) * scaleFactor) + centerX);
           console.log("PointY: " + ((point.y - currentPositionY) * scaleFactor) + centerY);*/
           context.beginPath();    
-          context.arc(((point.x - myPosition.x) * scaleFactor) + centerX , ((-point.y - myPosition.y) * scaleFactor) + centerY, radius, 0, 2 * Math.PI, false);
+          context.arc((point.x * scaleFactor) + centerX , (point.y * scaleFactor) + centerY, radius, 0, 2 * Math.PI, false);
           context.fillStyle = 'blue';
           context.fill();
           context.lineWidth = 0.5;
@@ -161,13 +178,18 @@ angular.module('starter')
       }
 
       function computeScaleFactor() {
-        var radius = 0;
+        var radius = 0.0;
+        //console.log("Hola!");
+        //console.log("points:" + points.length);
         points.forEach(function(point){
-          console.log("Coucou!");
-          var currentRadius = Math.sqrt((point.x- myPosition.x) * (point.x- myPosition.x) + (point.y- myPosition.y) * (point.y- myPosition.y));
-          console.log("Current Radius Before: " + currentRadius);
+          //console.log("Coucou!");
+          var φ1 = myPosition.x * Math.PI / 180, φ2 = point.x * Math.PI / 180, Δλ = (myPosition.y-point.y) * Math.PI / 180, R = 6371e3; // gives d in metres
+          var d = Math.acos( Math.sin(φ1)*Math.sin(φ2) + Math.cos(φ1)*Math.cos(φ2) * Math.cos(Δλ) ) * R;
+          var currentRadius = d;
+          //var currentRadius = Math.sqrt((point.x- myPosition.x) * (point.x- myPosition.x) + (point.y- myPosition.y) * (point.y- myPosition.y));
+          //console.log("Current Radius Before: " + currentRadius);
           if( currentRadius > radius ) {
-            console.log("Current Radius After: " + currentRadius);
+            //console.log("Current Radius After: " + currentRadius);
             radius = currentRadius;
           }
         });
@@ -366,7 +388,7 @@ angular.module('starter')
       scope.$watchGroup(['points', 'compass', 'myposition'], function(newVal, oldVal) {
           points = newVal[0];          
           compass = newVal[1];
-          myposition = newVal[2];
+          //myPosition = newVal[2];
           drawPoints();        
       });
 
