@@ -114,10 +114,9 @@ angular.module('starter')
       var pointsTransformed = []
 
       var compass = scope.compass;
-      var scaleFactor = computeScaleFactor();
-      console.log("ScaleFactor: " + scaleFactor);
-      processPoints();
-      drawPoints();
+      //var scaleFactor = computeScaleFactor();
+      //console.log("ScaleFactor: " + scaleFactor);
+      //drawPoints();
 
       function processPoints(){
            points.forEach(function(point){
@@ -126,10 +125,11 @@ angular.module('starter')
             var y = Math.sin(myPosition.y-point.y) * Math.cos(φ2);
             var x = Math.cos(φ1)*Math.sin(φ2) -
             Math.sin(φ1)*Math.cos(φ2)*Math.cos(myPosition.y-point.y);
-            var brng = Math.atan2(y, x).toDegrees();
+            var brng = Math.atan2(y, x) * 180 / Math.PI;
             var unitVector = {x: Math.sin(brng * Math.PI / 180), y: Math.cos(brng * Math.PI / 180)};
             var actualVector = {x: unitVector.x * d, y: unitVector.y * d};
             pointsTransformed.push(actualVector);
+            console.log("Bearing: " + brng);
            });
       }
 
@@ -137,6 +137,7 @@ angular.module('starter')
         scaleFactor = computeScaleFactor();
         console.log("ScaleFactor: " + scaleFactor);
         radius = 2;
+        processPoints();
         context.clearRect(0, 0, canvas.width, canvas.height);
 
         var centerX = window.innerWidth / 2.0;
@@ -147,6 +148,7 @@ angular.module('starter')
 
         // We draw the other user
         pointsTransformed.forEach(function(point){
+          console.log("Fem punt!");
           //console.log("CurrentPosition: " + myPosition.x + " " + myPosition.y);
           //console.log("CurrentPoint: " + point.x + " " + point.y);
           /*console.log("step0X: " + point.x);
@@ -179,10 +181,10 @@ angular.module('starter')
 
       function computeScaleFactor() {
         var radius = 0.0;
-        //console.log("Hola!");
-        //console.log("points:" + points.length);
+        console.log("Hola!");
+        console.log("points:" + points.length);
         points.forEach(function(point){
-          //console.log("Coucou!");
+          console.log("Coucou!");
           var φ1 = myPosition.x * Math.PI / 180, φ2 = point.x * Math.PI / 180, Δλ = (myPosition.y-point.y) * Math.PI / 180, R = 6371e3; // gives d in metres
           var d = Math.acos( Math.sin(φ1)*Math.sin(φ2) + Math.cos(φ1)*Math.cos(φ2) * Math.cos(Δλ) ) * R;
           var currentRadius = d;
