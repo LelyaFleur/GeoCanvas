@@ -105,6 +105,7 @@ angular.module('starter')
       // var boundingBox = JSON.parse(scope.boundingBox);
       //var points = JSON.parse(scope.points);
       //var points = scope.points;
+      var myPosition = scope.myposition;
       var points = points = [];
       var point1 = {x: 200.0, y: 100.0};
       points.push(point1);
@@ -358,7 +359,7 @@ angular.module('starter')
         ctx.stroke();
       }*/
 
-     /* scope.$watchGroup(['points', 'compass'], function(newVal, oldVal) {
+     /* scope.$watchGroup(['points', 'compass', 'myposition'], function(newVal, oldVal) {
           points = newVal[0];
           compass = newVal[1];
           myposition = newVal[2];
