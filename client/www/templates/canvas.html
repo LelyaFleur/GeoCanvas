@@ -6,7 +6,7 @@
 <ion-view cache-view="false">
 	<ion-content class="splash" style ="color:white;" scroll ="false">
 	
-	Last location: {{lastLocation.lat}},{{lastLocation.long}} Current location : {{currentLocation.lat}} , {{currentLocation.long}}
+	Current location : {{currentLocation.lat}} , {{currentLocation.long}}
 	compass(magnetic) : {{magneticHeading}} compass(true heading): {{trueHeading}}
 
 	<button class="button button-positive button-clear button-full" ng-click="$root.logout()">Log out</button>
@@ -21,7 +21,7 @@
                Logout     
             </button>
 		</div>-->
-		<canvas style="background-color: white;" drawing points = "points" compass = "trueHeading"></canvas>
+		<canvas style="background-color: white;" drawing points = "points" compass = "trueHeading" myposition = "myposition"></canvas>
 		<!--<canvas style="background-color: white;" drawing points = "points" bounding = "boundingBox"></canvas>-->
 		
 	</ion-content>

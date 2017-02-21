@@ -77,7 +77,8 @@ angular.module('starter')
     restrict: "A",
     scope: {
             points: "=",
-            compass: "="                     
+            compass: "=",
+            mypostition: "="                     
         },
      
     link: function(scope, element){
@@ -104,6 +105,7 @@ angular.module('starter')
       var points = JSON.parse(scope.points);*/
       var points = scope.points;
       var compass = scope.compass;
+      var myposition = scope.myposition;
       var boundingBox = findBoundingBox(points); 
       var range_x = (boundingBox.max.x - boundingBox.min.x) / screenPercentage;
       var range_y = (boundingBox.max.y - boundingBox.min.y) / screenPercentage;
@@ -288,9 +290,10 @@ angular.module('starter')
         ctx.stroke();
       }
 
-      scope.$watchGroup(['points', 'compass'], function(newVal, oldVal) {
+      scope.$watchGroup(['points', 'compass', 'myposition'], function(newVal, oldVal) {
           points = newVal[0];
-          compass = newVal[1]; 
+          compass = newVal[1];
+          myposition = newVal[2];
           drawPoints();        
       });
 
