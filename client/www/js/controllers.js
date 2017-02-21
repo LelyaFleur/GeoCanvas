@@ -206,8 +206,11 @@ angular.module('starter')
              var coords = [];
 
              $rootScope.allCoordinates.forEach(function(creature) {
-              var point = {x: creature.coordinates.lat, y: creature.coordinates.long};
-              coords.push(point);
+                var point = {x: creature.coordinates.lat, y: creature.coordinates.long};
+                if(creature.name !== $rootScope.username) {
+                   point = {x: creature.coordinates.lat, y: creature.coordinates.long};
+                   coords.push(point);
+                }     
              });
 
              $scope.points = coords;     
