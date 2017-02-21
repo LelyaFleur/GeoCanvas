@@ -77,7 +77,8 @@ angular.module('starter')
     restrict: "A",
     scope: {
             points: "=",
-            compass: "="                     
+            compass: "=",
+            mypostition: "="                     
         },
      
     link: function(scope, element){
@@ -359,7 +360,8 @@ angular.module('starter')
 
      /* scope.$watchGroup(['points', 'compass'], function(newVal, oldVal) {
           points = newVal[0];
-          compass = newVal[1]; 
+          compass = newVal[1];
+          myposition = newVal[2];
           drawPoints();        
       });*/
 

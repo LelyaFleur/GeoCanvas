@@ -75,6 +75,7 @@ angular.module('starter')
 .controller('CanvasController', function($scope, $rootScope, $ionicPlatform, $cordovaGeolocation, $cordovaDeviceOrientation, Coordinates) {
   
   $scope.points = [];
+  $scope.myposition = {x: 0, y: 0};
  
 
   Coordinates.all()
@@ -82,10 +83,14 @@ angular.module('starter')
        $rootScope.allCoordinates = data; 
        console.log("creatures:" + data);
        var coords = [];
+       var point = {x: 0, y : 0 };
 
        $rootScope.allCoordinates.forEach(function(creature) {
-        var point = {x: creature.coordinates.lat, y: creature.coordinates.long};
-        coords.push(point);
+        if(creature.name !== $rootScope.username) {
+           point = {x: creature.coordinates.lat, y: creature.coordinates.long};
+           coords.push(point);
+        }        
+       
        });
 
        $scope.points = coords;     
@@ -152,18 +157,20 @@ angular.module('starter')
         $scope.currentPollingLocation.lat = lat;
         $scope.currentPollingLocation.long = long;
 
+        $scope.myposition.x = lat;
+        $scope.myposition.y = long;
 
-         coordObj = {  id : $rootScope.userId,
+        coordObj = {  id : $rootScope.userId,
                        coordinates : $scope.currentPollingLocation
                     };
 
-          Coordinates.sendCoordinates(coordObj)
-          .success(function(data) {
-             
-          })
-          .error(function(err){
-            console.log(err);
-          });
+        Coordinates.sendCoordinates(coordObj)
+        .success(function(data) {
+           
+        })
+        .error(function(err){
+          console.log(err);
+        });
 
       }, function(err) {
         // error
