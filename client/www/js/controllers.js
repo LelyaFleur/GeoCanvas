@@ -86,6 +86,7 @@ angular.module('starter')
        var point = {x: 0, y : 0 };
 
        $rootScope.allCoordinates.forEach(function(creature) {
+        console.log("name:" + creature.name, $rootScope.username);
         if(creature.name !== $rootScope.username) {
            point = {x: creature.coordinates.lat, y: creature.coordinates.long};
            coords.push(point);
@@ -128,18 +129,17 @@ angular.module('starter')
 
   }
 
-  var watchCompass = function() {
-    watchCompass = $cordovaDeviceOrientation.watchHeading(compassOptions);
-    watchCompass.then(
+  var watchCurrentCompass = function() {
+    watchCompass = $cordovaDeviceOrientation.watchHeading(compassOptions).then(
       null,
       function(error) {
         // An error occurred
       },
       function(result) {   // updates constantly (depending on frequency value)
         $scope.magneticHeading = result.magneticHeading;
-        $scope.trueHeading = result.trueHeading;
-        $scope.accuracy = result.headingAccuracy;
-        $scope.timeStamp = result.timestamp;
+       $scope.trueHeading = result.trueHeading;
+       $scope.accuracy = result.headingAccuracy;
+       $scope.timeStamp = result.timestamp;
       });
   }
 
@@ -268,7 +268,7 @@ angular.module('starter')
   
 
   $ionicPlatform.ready(function() {
-    watchCompass();
+    watchCurrentCompass();
     getCompass();
     watchCurrentLocation();
     pollCurrentLocation();

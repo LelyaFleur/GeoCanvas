@@ -105,7 +105,7 @@ angular.module('starter')
       // var boundingBox = JSON.parse(scope.boundingBox);
       //var points = JSON.parse(scope.points);
       var points = scope.points;
-      var myPosition = scope.myposition;
+      var myPosition = {x: 0, y : 0};
       /*var points = points = [];
       var point1 = {x: 200.0, y: 100.0};
       points.push(point1);
@@ -115,7 +115,7 @@ angular.module('starter')
       var compass = scope.compass;
       var scaleFactor = computeScaleFactor();
       console.log("ScaleFactor: " + scaleFactor);
-      drawPoints();
+    //  drawPoints();
 
       function drawPoints() {
         radius = 2;
@@ -129,8 +129,8 @@ angular.module('starter')
 
         // We draw the other user
         points.forEach(function(point){
-          /*console.log("CurrentPositionX: " + currentPositionX);
-          console.log("CurrentPositionY: " + currentPositionY);
+          console.log("CurrentPositionX: " + myPosition.x , myPosition.y);
+          /*console.log("CurrentPositionY: " + currentPositionY);
           console.log("step0X: " + point.x);
           console.log("step0Y: " + point.y);
           console.log("step1X: " + (point.x - currentPositionX));
@@ -359,12 +359,12 @@ angular.module('starter')
         ctx.stroke();
       }*/
 
-     /* scope.$watchGroup(['points', 'compass', 'myposition'], function(newVal, oldVal) {
-          points = newVal[0];
+      scope.$watchGroup(['points', 'compass', 'myposition'], function(newVal, oldVal) {
+          points = newVal[0];          
           compass = newVal[1];
           myposition = newVal[2];
           drawPoints();        
-      });*/
+      });
 
     }
   };
