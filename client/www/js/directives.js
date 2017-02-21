@@ -366,7 +366,7 @@ angular.module('starter')
       scope.$watchGroup(['points', 'compass', 'myposition'], function(newVal, oldVal) {
           points = newVal[0];          
           compass = newVal[1];
-          myposition = newVal[2];
+          myPosition = newVal[2];
           drawPoints();        
       });
 
