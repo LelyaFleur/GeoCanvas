@@ -89,7 +89,8 @@ angular.module('starter')
       // The percentage of the screen that we want populated with data.
       // Must be between 0.5 and 1.0.
       var screenPercentage = 0.9;
-      var screenMargin = (1.0 - screenPercentage) / 2.0;
+      //var screenMargin = (1.0 - screenPercentage) / 2.0;
+
       var canvas = element[0];
       canvas.width  = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -100,11 +101,79 @@ angular.module('starter')
       var lastY;
       console.log("points:" + scope.points);
       console.log("boundingBox:" + scope.bounding);
-     /* var boundingBox = JSON.parse(scope.boundingBox);
-      var points = JSON.parse(scope.points);*/
-      var points = scope.points;
+      // var boundingBox = JSON.parse(scope.boundingBox);
+      //var points = JSON.parse(scope.points);
+      //var points = scope.points;
+      var points = points = [];
+      var point1 = {x: 200.0, y: 100.0};
+      points.push(point1);
+      var currentPositionX = 0.0;
+      var currentPositionY = 0.0;
+
       var compass = scope.compass;
-      var boundingBox = findBoundingBox(points); 
+      var scaleFactor = computeScaleFactor();
+      console.log("ScaleFactor: " + scaleFactor);
+      drawPoints();
+
+      function drawPoints() {
+        radius = 5;
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        var centerX = window.innerWidth / 2.0;
+        var centerY = window.innerHeight / 2.0;
+        console.log("CenterX: " + centerX);
+        console.log("CenterY: " + centerY);
+
+
+        // We draw the other user
+        points.forEach(function(point){
+          console.log("CurrentPositionX: " + currentPositionX);
+          console.log("CurrentPositionY: " + currentPositionY);
+          console.log("step0X: " + point.x);
+          console.log("step0Y: " + point.y);
+          console.log("step1X: " + (point.x - currentPositionX));
+          console.log("step1Y: " + (point.y - currentPositionY));
+          console.log("step2X: " + ((point.x - currentPositionX) * scaleFactor));
+          console.log("step2Y: " + ((point.y - currentPositionY) * scaleFactor));
+          console.log("PointX: " + ((point.x - currentPositionX) * scaleFactor) + centerX);
+          console.log("PointY: " + ((point.y - currentPositionY) * scaleFactor) + centerY);
+          context.beginPath();    
+          context.arc(((point.x - currentPositionX) * scaleFactor) + centerX , ((-point.y - currentPositionY) * scaleFactor) + centerY, radius, 0, 2 * Math.PI, false);
+          context.fillStyle = 'red';
+          context.fill();
+          context.lineWidth = 0.5;
+          context.strokeStyle = '#ff0000';
+          context.stroke();     
+        });
+
+        // We draw ourselves
+        radius = 2;
+        context.beginPath();    
+          context.arc(centerX , centerY, radius, 0, 2 * Math.PI, false);
+          context.fillStyle = 'blue';
+          context.fill();
+          context.lineWidth = 0.5;
+          context.strokeStyle = '#0000ff';
+          context.stroke();    
+      }
+
+      function computeScaleFactor() {
+        var radius = 0;
+        points.forEach(function(point){
+          var currentRadius = Math.sqrt((point.x- currentPositionX) * (point.x- currentPositionX) + (point.y- currentPositionY) * (point.y- currentPositionY));
+          if( currentRadius > radius ) {
+            radius = currentRadius;
+          }
+        });
+        //console.log("Radius = " + radius);
+
+        if(radius > 0) {
+          return screenPercentage * Math.min(window.innerWidth, window.innerHeight) / (2.0 * radius); //2.0 because we want to reach just half of the screen (we start in the middle).
+        }
+        return 0;
+      }
+
+      /*var boundingBox = findBoundingBox(points); 
       var range_x = (boundingBox.max.x - boundingBox.min.x) / screenPercentage;
       var range_y = (boundingBox.max.y - boundingBox.min.y) / screenPercentage;
       var useHeight = 0;
@@ -286,13 +355,13 @@ angular.module('starter')
         ctx.strokeStyle = "#4bf";
         // draw it
         ctx.stroke();
-      }
+      }*/
 
-      scope.$watchGroup(['points', 'compass'], function(newVal, oldVal) {
+     /* scope.$watchGroup(['points', 'compass'], function(newVal, oldVal) {
           points = newVal[0];
           compass = newVal[1]; 
           drawPoints();        
-      });
+      });*/
 
     }
   };
