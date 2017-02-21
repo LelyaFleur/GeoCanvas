@@ -100,8 +100,8 @@ angular.module('starter')
       // the last coordinates before the current move
       var lastX;
       var lastY;
-      console.log("points:" + scope.points);
-      console.log("boundingBox:" + scope.bounding);
+      //console.log("points:" + scope.points);
+      //console.log("boundingBox:" + scope.bounding);
       // var boundingBox = JSON.parse(scope.boundingBox);
       //var points = JSON.parse(scope.points);
       var points = scope.points;
@@ -115,23 +115,24 @@ angular.module('starter')
       var compass = scope.compass;
       var scaleFactor = computeScaleFactor();
       console.log("ScaleFactor: " + scaleFactor);
-    //  drawPoints();
+      //drawPoints();
 
       function drawPoints() {
+        scaleFactor = computeScaleFactor();
         radius = 2;
         context.clearRect(0, 0, canvas.width, canvas.height);
 
         var centerX = window.innerWidth / 2.0;
         var centerY = window.innerHeight / 2.0;
-        console.log("CenterX: " + centerX);
-        console.log("CenterY: " + centerY);
+        //console.log("CenterX: " + centerX);
+        //console.log("CenterY: " + centerY);
 
 
         // We draw the other user
         points.forEach(function(point){
-          console.log("CurrentPositionX: " + myPosition.x , myPosition.y);
-          /*console.log("CurrentPositionY: " + currentPositionY);
-          console.log("step0X: " + point.x);
+          //console.log("CurrentPosition: " + myPosition.x + " " + myPosition.y);
+          //console.log("CurrentPoint: " + point.x + " " + point.y);
+          /*console.log("step0X: " + point.x);
           console.log("step0Y: " + point.y);
           console.log("step1X: " + (point.x - currentPositionX));
           console.log("step1Y: " + (point.y - currentPositionY));
@@ -162,12 +163,15 @@ angular.module('starter')
       function computeScaleFactor() {
         var radius = 0;
         points.forEach(function(point){
+          console.log("Coucou!");
           var currentRadius = Math.sqrt((point.x- myPosition.x) * (point.x- myPosition.x) + (point.y- myPosition.y) * (point.y- myPosition.y));
+          console.log("Current Radius Before: " + currentRadius);
           if( currentRadius > radius ) {
+            console.log("Current Radius After: " + currentRadius);
             radius = currentRadius;
           }
         });
-        //console.log("Radius = " + radius);
+        console.log("Radius = " + radius);
 
         if(radius > 0) {
           return screenPercentage * Math.min(window.innerWidth, window.innerHeight) / (2.0 * radius); //2.0 because we want to reach just half of the screen (we start in the middle).
