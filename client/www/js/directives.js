@@ -104,13 +104,13 @@ angular.module('starter')
       console.log("boundingBox:" + scope.bounding);
       // var boundingBox = JSON.parse(scope.boundingBox);
       //var points = JSON.parse(scope.points);
-      //var points = scope.points;
+      var points = scope.points;
       var myPosition = scope.myposition;
-      var points = points = [];
+      /*var points = points = [];
       var point1 = {x: 200.0, y: 100.0};
       points.push(point1);
       var currentPositionX = 0.0;
-      var currentPositionY = 0.0;
+      var currentPositionY = 0.0;*/
 
       var compass = scope.compass;
       var scaleFactor = computeScaleFactor();
@@ -118,7 +118,7 @@ angular.module('starter')
       drawPoints();
 
       function drawPoints() {
-        radius = 5;
+        radius = 2;
         context.clearRect(0, 0, canvas.width, canvas.height);
 
         var centerX = window.innerWidth / 2.0;
@@ -129,7 +129,7 @@ angular.module('starter')
 
         // We draw the other user
         points.forEach(function(point){
-          console.log("CurrentPositionX: " + currentPositionX);
+          /*console.log("CurrentPositionX: " + currentPositionX);
           console.log("CurrentPositionY: " + currentPositionY);
           console.log("step0X: " + point.x);
           console.log("step0Y: " + point.y);
@@ -138,31 +138,31 @@ angular.module('starter')
           console.log("step2X: " + ((point.x - currentPositionX) * scaleFactor));
           console.log("step2Y: " + ((point.y - currentPositionY) * scaleFactor));
           console.log("PointX: " + ((point.x - currentPositionX) * scaleFactor) + centerX);
-          console.log("PointY: " + ((point.y - currentPositionY) * scaleFactor) + centerY);
+          console.log("PointY: " + ((point.y - currentPositionY) * scaleFactor) + centerY);*/
           context.beginPath();    
-          context.arc(((point.x - currentPositionX) * scaleFactor) + centerX , ((-point.y - currentPositionY) * scaleFactor) + centerY, radius, 0, 2 * Math.PI, false);
-          context.fillStyle = 'red';
+          context.arc(((point.x - myPosition.x) * scaleFactor) + centerX , ((-point.y - myPosition.y) * scaleFactor) + centerY, radius, 0, 2 * Math.PI, false);
+          context.fillStyle = 'blue';
           context.fill();
           context.lineWidth = 0.5;
-          context.strokeStyle = '#ff0000';
+          context.strokeStyle = '#007AFF';
           context.stroke();     
         });
 
         // We draw ourselves
-        radius = 2;
+        radius = 5;
         context.beginPath();    
           context.arc(centerX , centerY, radius, 0, 2 * Math.PI, false);
-          context.fillStyle = 'blue';
+          context.fillStyle = 'red';
           context.fill();
           context.lineWidth = 0.5;
-          context.strokeStyle = '#0000ff';
+          context.strokeStyle = '#ff0000';
           context.stroke();    
       }
 
       function computeScaleFactor() {
         var radius = 0;
         points.forEach(function(point){
-          var currentRadius = Math.sqrt((point.x- currentPositionX) * (point.x- currentPositionX) + (point.y- currentPositionY) * (point.y- currentPositionY));
+          var currentRadius = Math.sqrt((point.x- myPosition.x) * (point.x- myPosition.x) + (point.y- myPosition.y) * (point.y- myPosition.y));
           if( currentRadius > radius ) {
             radius = currentRadius;
           }
